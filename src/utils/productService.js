@@ -19,13 +19,13 @@ export const fetchProducts = async () => {
     const products = [];
     querySnapshot.forEach((doc) => {
       const productData = doc.data();
-      const productPrice = parseFloat(productData.productPrice); // Konversi ke tipe data number
+      const productPrice = parseFloat(productData.productPrice);
       const product = {
         id: doc.id,
         productName: productData.productName,
         productCategory: productData.productCategory,
-        productImage: productData.productImage, // Pastikan productImage adalah URL gambar
-        productPrice: productPrice, // Menggunakan productPrice yang sudah dikonversi
+        productImage: productData.productImage,
+        productPrice: productPrice,
       };
       products.push(product);
     });
