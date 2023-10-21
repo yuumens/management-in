@@ -2,8 +2,6 @@
 import { useState } from 'react';
 import { addProduct, uploadImageToStorage } from '../../utils/productService';
 import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap';
-import { push, ref, set } from '@firebase/database';
-import { db } from '../../utils/firebase-config';
 import { Helmet } from 'react-helmet';
 
 const AddProductComponent = () => {
