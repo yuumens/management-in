@@ -11,7 +11,7 @@ function App() {
     <div>
       <Navbars/>
     <Routes>
-      <Route path='/' Component={homepage}></Route>
+      <Route path='/listproduct' Component={homepage}></Route>
       <Route path='/addproduct' Component={AddProductPage}></Route>
     </Routes>
     </div>
