@@ -6,6 +6,8 @@ import {
   getDocs,
   orderBy,
   query,
+  serverTimestamp,
+  where,
 } from "firebase/firestore";
 import { db } from "./firebase-config";
 
@@ -23,7 +25,7 @@ export const fetchProducts = async () => {
       const product = {
         id: doc.id,
         productName: productData.productName,
-        productCategory: productData.productCategory,
+        productStock: productData.productStock,
         productImage: productData.productImage,
         productPrice: productPrice,
       };
@@ -50,21 +52,22 @@ export const uploadImageToStorage = async (imageFile) => {
 
 export const addProduct = async (
   productName,
-  productCategory,
+  productStock,
   productImage,
   productPrice
 ) => {
   try {
-    const productsCollectionRef = collection(db, "products"); // Menggunakan referensi yang sudah ada
+    const productsCollectionRef = collection(db, "products");
 
     const productData = {
       productName: productName,
-      productCategory: productCategory,
-      productImage: productImage, // Ini bisa berupa URL gambar jika sudah diunggah ke Firebase Storage
+      productStock: productStock,
+      productImage: productImage,
       productPrice: productPrice,
+      uploadDate: serverTimestamp(),
     };
 
-    const docRef = await addDoc(productsCollectionRef, productData); // Menambahkan data produk ke koleksi "products"
+    const docRef = await addDoc(productsCollectionRef, productData);
     console.log("Product added with ID:", docRef.id);
     return docRef.id;
   } catch (error) {
@@ -75,19 +78,17 @@ export const addProduct = async (
 
 export const addProductsWithImage = async (
   productName,
-  productCategory,
+  productStock,
   productImage,
   productPrice
 ) => {
   try {
-    // Mengunggah gambar ke Firebase Storage
     const imageURL = await uploadImageToStorage(productImage);
 
     if (imageURL) {
-      // Menambahkan produk ke Firebase Realtime Database
       const productID = await addProduct(
         productName,
-        productCategory,
+        productStock,
         imageURL,
         productPrice
       );
@@ -96,5 +97,21 @@ export const addProductsWithImage = async (
     }
   } catch (error) {
     console.error("Error adding product with image: ", error);
+  }
+};
+
+export const checkProductExists = async (productName) => {
+  try {
+    const productsCollectionRef = collection(db, "products");
+    const productQuery = query(
+      productsCollectionRef,
+      where("productName", "==", productName)
+    );
+    const querySnapshot = await getDocs(productQuery);
+
+    return !querySnapshot.empty;
+  } catch (error) {
+    console.error("Error checking product existence: ", error);
+    return false;
   }
 };
