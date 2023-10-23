@@ -4,7 +4,7 @@ import { Card, Col } from 'react-bootstrap';
 
 const ProductCard = ({product}) => {
   return (
-    <Col xs={12} sm={6} md={4} lg={3}>
+    <Col xs={12} sm={6} md={5} lg={3} className='mb-3 mb-md-3'>
       <Card>
       <div className="d-flex justify-content-center">
           <Card.Img
@@ -17,12 +17,12 @@ const ProductCard = ({product}) => {
         <Card.Body>
           <Card.Title>{product.productName}</Card.Title>
           <Card.Text>
-            Category: {product.productCategory}<br />
-            Price: ${product.productPrice}
+            Stock: {product.productStock}<br />
+            Price: Idr {product.productPrice}
           </Card.Text>
         </Card.Body>
       </Card>
-    </Col>
+    </Col> 
   )
 }
 
@@ -30,7 +30,7 @@ ProductCard.propTypes = {
     product: PropTypes.shape({
       productImage: PropTypes.string.isRequired,
       productName: PropTypes.string.isRequired,
-      productCategory: PropTypes.string.isRequired,
+      productStock: PropTypes.string.isRequired,
       productPrice: PropTypes.number.isRequired,
     }).isRequired,
   };

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchProducts } from "../../utils/productService";
 import ProductCard from "./productcard";
 import { Col, Container, Row } from "react-bootstrap";
-import { Helmet } from "react-helmet";
+import { Helmet ,HelmetProvider } from "react-helmet-async";
 
 
 const ListProductComponent = () => {
@@ -22,10 +22,11 @@ const ListProductComponent = () => {
 
 
   return (
+    <HelmetProvider>
+    <div>
     <Container>
         <Helmet>
             <title>managementIn - List Product</title>
-            <link rel="canonical" href="https://www.tacobell.com/" />
         </Helmet>
         <Col className="d-flex justify-content-center m-3">
             <h2>Product List</h2>
@@ -36,6 +37,9 @@ const ListProductComponent = () => {
         ))}
       </Row>
     </Container>
+    </div>
+    </HelmetProvider>
+
   )
 }
 
