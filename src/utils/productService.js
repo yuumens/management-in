@@ -3,6 +3,8 @@ import { storages } from "./firebase-config";
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getDocs,
   orderBy,
   query,
@@ -112,6 +114,18 @@ export const checkProductExists = async (productName) => {
     return !querySnapshot.empty;
   } catch (error) {
     console.error("Error checking product existence: ", error);
+    return false;
+  }
+};
+
+export const deleteProduct = async (productId) => {
+  try {
+    const productDocRef = doc(db, "products", productId);
+    await deleteDoc(productDocRef);
+    console.log("Product deleted successfully.");
+    return true;
+  } catch (error) {
+    console.error("Error deleting product: ", error);
     return false;
   }
 };
