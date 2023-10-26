@@ -8,8 +8,8 @@ const Navbars = () => {
         <Navbar.Brand href="/">managementIn</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto me-4">
-            <NavLink to={'/addproduct'}>Add Product</NavLink>
+          <Nav className="ms-auto me-4 m-2">
+            <NavLink to={'/addproduct'} >Add Product</NavLink>
           </Nav>
           <div>
             <Form.Control type='text' placeholder='Search Product'/>

@@ -30,6 +30,7 @@ export const fetchProducts = async () => {
         productStock: productData.productStock,
         productImage: productData.productImage,
         productPrice: productPrice,
+        uploadDate: productData.uploadDate,
       };
       products.push(product);
     });
