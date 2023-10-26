@@ -1,7 +1,18 @@
 import {Navbar, Container, Nav, Form} from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { useState } from 'react'
 
-const Navbars = () => {
+const Navbars = ({onSearch}) => {
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const handleSearch = (e) => {
+      const query = e.target.value;
+      setSearchQuery(query);
+      onSearch(query);
+    };
+  
+  
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
@@ -12,12 +23,23 @@ const Navbars = () => {
             <NavLink to={'/addproduct'} >Add Product</NavLink>
           </Nav>
           <div>
-            <Form.Control type='text' placeholder='Search Product'/>
-          </div>
+        <Form.Group controlId="searchProduct">
+            <Form.Control 
+                type='text' 
+                placeholder='Search Product'
+                value={searchQuery}
+                onChange={handleSearch}
+            />
+        </Form.Group>
+    </div>
         </Navbar.Collapse>
       </Container>
     </Navbar>
   )
 }
+
+Navbars.propTypes = {
+    onSearch: PropTypes.func.isRequired,
+  };
 
 export default Navbars
