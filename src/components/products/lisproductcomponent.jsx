@@ -3,14 +3,22 @@ import { fetchProducts } from "../../utils/productService";
 import ProductCard from "./productcard";
 import { Col, Container, Row, Spinner } from "react-bootstrap";
 import { Helmet ,HelmetProvider } from "react-helmet-async";
+import Navbars from "../navbar/navbar";
 
 
 const ListProductComponent = () => {
     const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const searchResults = filteredProducts.length > 0 || searchQuery !== '';
+    const noProducts = products.length === 0;
 
     const onDelete = (productId) => {
-        setProducts((prevProducts) => prevProducts.filter((product) => product.id !== productId));
+        setFilteredProducts((prevProducts) =>
+          prevProducts.filter((product) => product.id !== productId)
+        );
       };
 
     useEffect(() => {
@@ -28,9 +36,16 @@ const ListProductComponent = () => {
           })
       }, []);
 
+      useEffect(() => {
+        const filtered = products.filter((product) =>
+            product.productName.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredProducts(filtered);
+      }, [searchQuery, products]);
 
   return (
     <HelmetProvider>
+    <Navbars onSearch={setSearchQuery}/>
     <div>
     <Container>
         <Helmet>
@@ -41,18 +56,27 @@ const ListProductComponent = () => {
         </Col>
         {isLoading ? (
             <div className="d-flex justify-content-center my-5">
-                <Spinner animation="border" role="status">
-                </Spinner>
+              <Spinner animation="border" role="status"></Spinner>
             </div>
-        ) : products.length === 0 ? (
-            <p>Product is Empty</p>
-        ) : (
-        <Row>
-            {products.map((product) => (
+        ) : searchResults ? (
+            filteredProducts.length > 0 ? (
+                <Row>
+                  {filteredProducts.map((product) => (
+                    <ProductCard key={product.id} product={product} onDelete={onDelete} />
+                  ))}
+                </Row>
+              ) : (
+                <h3>No products found for your search.</h3>
+              )
+          ) : noProducts ? (
+            <h3>No products found.</h3>
+          ) : (
+            <Row>
+              {products.map((product) => (
                 <ProductCard key={product.id} product={product} onDelete={onDelete} />
-            ))}
-        </Row>
-        )}
+              ))}
+            </Row>
+          )}
     </Container>
     </div>
     </HelmetProvider>

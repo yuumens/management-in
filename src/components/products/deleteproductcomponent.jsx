@@ -34,7 +34,6 @@ DeleteProduct.propTypes = {
     show: PropTypes.bool.isRequired,
     onHide: PropTypes.func.isRequired,
     onConfirmDelete: PropTypes.func.isRequired,
-    onAlert: PropTypes.func.isRequired,
     product: PropTypes.shape({
         productName: PropTypes.string.isRequired,
     }).isRequired,
