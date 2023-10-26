@@ -1,8 +1,20 @@
 
 import PropTypes from 'prop-types'
-import { Card, Col } from 'react-bootstrap';
+import { Button, Card, Col } from 'react-bootstrap';
+import { useState } from 'react';
+import ProductDetailsComponent from './productdetailscomponent';
 
 const ProductCard = ({product}) => {
+    const [showModal, setShowModal] = useState(false);
+
+    const handleShowModal = () => {
+        setShowModal(true);
+      };
+    
+      const handleCloseModal = () => {
+        setShowModal(false);
+      };
+    
   return (
     <Col xs={12} sm={6} md={5} lg={3} className='mb-3 mb-md-3'>
       <Card>
@@ -16,22 +28,24 @@ const ProductCard = ({product}) => {
         </div>
         <Card.Body>
           <Card.Title>{product.productName}</Card.Title>
-          <Card.Text>
-            Stock: {product.productStock}<br />
-            Price: Idr {product.productPrice}
-          </Card.Text>
+          <Button variant="primary" onClick={handleShowModal}>Details</Button>
         </Card.Body>
       </Card>
+
+    <ProductDetailsComponent product={product} show={showModal} onHide={handleCloseModal} />
+
     </Col> 
   )
 }
 
 ProductCard.propTypes = {
+    onDelete: PropTypes.func.isRequired,
     product: PropTypes.shape({
-      productImage: PropTypes.string.isRequired,
-      productName: PropTypes.string.isRequired,
-      productStock: PropTypes.string.isRequired,
-      productPrice: PropTypes.number.isRequired,
+        id : PropTypes.string.isRequired,
+        productImage: PropTypes.string.isRequired,
+        productName: PropTypes.string.isRequired,
+        productStock: PropTypes.number.isRequired,
+        productPrice: PropTypes.number.isRequired,
     }).isRequired,
   };
 
