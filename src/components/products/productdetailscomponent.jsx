@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { useState } from "react";
 import DeleteProduct from "./deleteproductcomponent";
 import { deleteProduct } from "../../utils/productService";
+import { Link } from "react-router-dom";
+
 
 const ProductDetailsComponent = ({ product, show, onHide }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -22,7 +24,7 @@ const ProductDetailsComponent = ({ product, show, onHide }) => {
   };
 
   return (
-    <div>
+    <>
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
         <Modal.Title>{product.productName} Details</Modal.Title>
@@ -38,11 +40,19 @@ const ProductDetailsComponent = ({ product, show, onHide }) => {
               ? new Date(product.uploadDate.seconds * 1000).toLocaleString()
               : "N/A"}
         </p>
+        <p>
+          Last Update:{" "}
+            {product.lastUpdate
+              ? new Date(product.lastUpdate.seconds * 1000).toLocaleString()
+              : "N/A"}
+        </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>
-          Close
+      <Link to={`/editproduct/${product.id}`}>
+        <Button variant="secondary">
+          Edit Product
         </Button>
+      </Link>
         <Button onClick={handleDelete}>Delete Product</Button>
       </Modal.Footer>
       {showAlert && (
@@ -58,7 +68,7 @@ const ProductDetailsComponent = ({ product, show, onHide }) => {
       onHide={() => setShowDeleteModal(false)}
       onConfirmDelete={() => confirmDelete(product.id)}
     />
-    </div>
+    </>
     
   )
 }
@@ -73,6 +83,7 @@ ProductDetailsComponent.propTypes = {
       productStock: PropTypes.number.isRequired,
       productPrice: PropTypes.number.isRequired,
       uploadDate: PropTypes.any,
+      lastUpdate: PropTypes.any,
   }).isRequired,
 };
 
