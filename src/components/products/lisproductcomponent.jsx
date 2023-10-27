@@ -46,7 +46,7 @@ const ListProductComponent = () => {
   return (
     <HelmetProvider>
     <Navbars onSearch={setSearchQuery}/>
-    <div>
+    <>
     <Container>
         <Helmet>
             <title>managementIn - List Product</title>
@@ -78,7 +78,7 @@ const ListProductComponent = () => {
             </Row>
           )}
     </Container>
-    </div>
+    </>
     </HelmetProvider>
 
   )

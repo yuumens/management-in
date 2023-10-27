@@ -24,6 +24,7 @@ export const fetchProducts = async () => {
     querySnapshot.forEach((doc) => {
       const productData = doc.data();
       const productPrice = parseFloat(productData.productPrice);
+
       const product = {
         id: doc.id,
         productName: productData.productName,
@@ -31,6 +32,7 @@ export const fetchProducts = async () => {
         productImage: productData.productImage,
         productPrice: productPrice,
         uploadDate: productData.uploadDate,
+        lastUpdate: productData.lastUpdate,
       };
       products.push(product);
     });
@@ -72,7 +74,8 @@ export const addProduct = async (
 
     const docRef = await addDoc(productsCollectionRef, productData);
     console.log("Product added with ID:", docRef.id);
-    return docRef.id;
+    productData.id = docRef.id;
+    return productData;
   } catch (error) {
     console.error("Error adding product: ", error);
     return null;
