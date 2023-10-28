@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { fetchProducts } from "../../utils/productService";
 import ProductCard from "./productcard";
-import { Col, Container, Row, Spinner } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { Helmet ,HelmetProvider } from "react-helmet-async";
 import Navbars from "../navbar/navbar";
+import Spinners from "../others/spinner";
+import { NoProducts, NoProductsSearch } from "../others/noproducts";
 
 
 const ListProductComponent = () => {
@@ -55,9 +57,7 @@ const ListProductComponent = () => {
             <h2>Product List</h2>
         </Col>
         {isLoading ? (
-            <div className="d-flex justify-content-center my-5">
-              <Spinner animation="border" role="status"></Spinner>
-            </div>
+            <Spinners/>
         ) : searchResults ? (
             filteredProducts.length > 0 ? (
                 <Row>
@@ -66,10 +66,10 @@ const ListProductComponent = () => {
                   ))}
                 </Row>
               ) : (
-                <h3>No products found for your search.</h3>
+                <NoProductsSearch/>
               )
           ) : noProducts ? (
-            <h3>No products found.</h3>
+            <NoProducts/>
           ) : (
             <Row>
               {products.map((product) => (
