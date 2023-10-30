@@ -1,6 +1,7 @@
 import axios from 'axios';
 import './openai.css'
 import { useState } from 'react';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 const Chatbot = () => {
   const [input, setInput] = useState('');
@@ -38,9 +39,13 @@ const Chatbot = () => {
   };
 
   return (
+    <HelmetProvider>
+        <Helmet>
+            <title>managementIn - ChatBot</title>
+        </Helmet>
     <div className="chat-bot">
       <div className="chat-bot-container">
-      <h1>Chat Bot</h1>
+      <h1>ChatBot</h1>
       <div className="input-container">
         <input
           type="text"
@@ -64,8 +69,9 @@ const Chatbot = () => {
         ))}
       </div>
       </div>
-      
     </div>
+    </HelmetProvider>
+    
   );
 };
 

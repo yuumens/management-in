@@ -54,7 +54,7 @@ const ListProductComponent = () => {
             <title>managementIn - List Product</title>
         </Helmet>
         <Col className="d-flex justify-content-center m-3">
-            <h2>Product List</h2>
+            <h2>List Product</h2>
         </Col>
         {isLoading ? (
             <Spinners/>
@@ -62,7 +62,7 @@ const ListProductComponent = () => {
             filteredProducts.length > 0 ? (
                 <Row>
                   {filteredProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} onDelete={onDelete} />
+                    <ProductCard key={product.id} product={product} onDelete={onDelete} productImage={product.productImage} />
                   ))}
                 </Row>
               ) : (
@@ -73,7 +73,7 @@ const ListProductComponent = () => {
           ) : (
             <Row>
               {products.map((product) => (
-                <ProductCard key={product.id} product={product} onDelete={onDelete} />
+                <ProductCard key={product.id} product={product} onDelete={onDelete} productImage={product.productImage}  />
               ))}
             </Row>
         )}
