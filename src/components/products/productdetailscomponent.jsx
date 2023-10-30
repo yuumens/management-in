@@ -37,13 +37,13 @@ const ProductDetailsComponent = ({ product, show, onHide }) => {
           Created At:{" "}
             {product.uploadDate
               ? new Date(product.uploadDate.seconds * 1000).toLocaleString()
-              : "N/A"}
+              : "-"}
         </p>
         <p>
           Last Update:{" "}
             {product.lastUpdate
               ? new Date(product.lastUpdate.seconds * 1000).toLocaleString()
-              : "N/A"}
+              : "-"}
         </p>
       </Modal.Body>
       <Modal.Footer>

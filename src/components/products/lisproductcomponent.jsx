@@ -21,7 +21,7 @@ const ListProductComponent = () => {
         setFilteredProducts((prevProducts) =>
           prevProducts.filter((product) => product.id !== productId)
         );
-      };
+    };
 
     useEffect(() => {
         fetchProducts()
@@ -36,7 +36,7 @@ const ListProductComponent = () => {
           .finally(() => {
             setIsLoading(false);
           })
-      }, []);
+    }, []);
 
       useEffect(() => {
         const filtered = products.filter((product) =>
@@ -66,7 +66,7 @@ const ListProductComponent = () => {
                   ))}
                 </Row>
               ) : (
-                <NoProductsSearch/>
+                <NoProductsSearch productName={searchQuery}/>
               )
           ) : noProducts ? (
             <NoProducts/>
@@ -76,7 +76,7 @@ const ListProductComponent = () => {
                 <ProductCard key={product.id} product={product} onDelete={onDelete} />
               ))}
             </Row>
-          )}
+        )}
     </Container>
     </>
     </HelmetProvider>

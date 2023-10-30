@@ -4,6 +4,7 @@ import { doc, getDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { db } from '../../utils/firebase-config';
 import { useNavigate, useParams } from 'react-router';
 import { uploadImageToStorage } from '../../utils/productService';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 const EditProductComponent = () => {
     const { productId } = useParams();
@@ -61,7 +62,11 @@ const EditProductComponent = () => {
     
 
   return (
-    <Container>
+    <HelmetProvider>
+      <Helmet>
+      <title>managementIn - Edit Product</title>
+      </Helmet>
+      <Container>
       <Col className='d-flex justify-content-center m-3'>
           <h2>Edit Product</h2>
         </Col>
@@ -110,6 +115,8 @@ const EditProductComponent = () => {
             </Alert>
           )}
     </Container>
+    </HelmetProvider>
+    
   );
 }
 

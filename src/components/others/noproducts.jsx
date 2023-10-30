@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 export const NoProducts = () => {
   return (
     <div
@@ -13,7 +15,7 @@ export const NoProducts = () => {
   );
 };
 
-export const NoProductsSearch = () => {
+export const NoProductsSearch = ({productName}) => {
   return (
     <div
       style={{
@@ -23,7 +25,11 @@ export const NoProductsSearch = () => {
         height: "50vh",
       }}
     >
-      <h3>No products found for your search.</h3>
+      <h3>{productName} Product you Search is Not Found.</h3>
     </div>
   );
 };
+
+NoProductsSearch.propTypes = {
+  productName : PropTypes.string.isRequired,
+}
