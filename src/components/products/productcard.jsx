@@ -4,7 +4,7 @@ import { Button, Card, Col } from 'react-bootstrap';
 import { useState } from 'react';
 import ProductDetailsComponent from './productdetailscomponent';
 
-const ProductCard = ({product}) => {
+const ProductCard = ({product, productImage}) => {
     const [showModal, setShowModal] = useState(false);
 
     const handleShowModal = () => {
@@ -19,12 +19,11 @@ const ProductCard = ({product}) => {
     <Col xs={12} sm={6} md={5} lg={3} className='mb-3 mb-md-3'>
       <Card>
       <div className="d-flex justify-content-center">
-          <Card.Img
-            variant="top"
-            src={product.productImage}
-            alt={product.productName}
-            style={{ width: '200px', height: '200px' }}
-          />
+        <Card.Img
+          src={productImage || product.productImage}
+          alt={product.productName}
+          style={{ width: '200px', height: '200px' }}
+        />
         </div>
         <Card.Body>
           <Card.Title>{product.productName}</Card.Title>
@@ -39,7 +38,7 @@ const ProductCard = ({product}) => {
 }
 
 ProductCard.propTypes = {
-    onDelete: PropTypes.func.isRequired,
+    productImage : PropTypes.string.isRequired,
     product: PropTypes.shape({
         id : PropTypes.string.isRequired,
         productImage: PropTypes.string.isRequired,

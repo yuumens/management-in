@@ -122,7 +122,7 @@ const AddProductComponent = () => {
             <Alert variant="warning" className="mt-3" onClose={() => setShowAlert(false)} dismissible>
               Product already exists!
             </Alert>
-          )}
+        )}
     </Container>
       <Modal 
         show={showModal} 

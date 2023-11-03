@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { fetchProducts } from "../../utils/productService";
 import ProductCard from "./productcard";
-import { Col, Container, Row, Spinner } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { Helmet ,HelmetProvider } from "react-helmet-async";
 import Navbars from "../navbar/navbar";
+import Spinners from "../others/spinner";
+import { NoProducts, NoProductsSearch } from "../others/noproducts";
 
 
 const ListProductComponent = () => {
@@ -19,7 +21,7 @@ const ListProductComponent = () => {
         setFilteredProducts((prevProducts) =>
           prevProducts.filter((product) => product.id !== productId)
         );
-      };
+    };
 
     useEffect(() => {
         fetchProducts()
@@ -34,7 +36,7 @@ const ListProductComponent = () => {
           .finally(() => {
             setIsLoading(false);
           })
-      }, []);
+    }, []);
 
       useEffect(() => {
         const filtered = products.filter((product) =>
@@ -52,31 +54,29 @@ const ListProductComponent = () => {
             <title>managementIn - List Product</title>
         </Helmet>
         <Col className="d-flex justify-content-center m-3">
-            <h2>Product List</h2>
+            <h2>List Product</h2>
         </Col>
         {isLoading ? (
-            <div className="d-flex justify-content-center my-5">
-              <Spinner animation="border" role="status"></Spinner>
-            </div>
+            <Spinners/>
         ) : searchResults ? (
             filteredProducts.length > 0 ? (
                 <Row>
                   {filteredProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} onDelete={onDelete} />
+                    <ProductCard key={product.id} product={product} onDelete={onDelete} productImage={product.productImage} />
                   ))}
                 </Row>
               ) : (
-                <h3>No products found for your search.</h3>
+                <NoProductsSearch productName={searchQuery}/>
               )
           ) : noProducts ? (
-            <h3>No products found.</h3>
+            <NoProducts/>
           ) : (
             <Row>
               {products.map((product) => (
-                <ProductCard key={product.id} product={product} onDelete={onDelete} />
+                <ProductCard key={product.id} product={product} onDelete={onDelete} productImage={product.productImage}  />
               ))}
             </Row>
-          )}
+        )}
     </Container>
     </>
     </HelmetProvider>

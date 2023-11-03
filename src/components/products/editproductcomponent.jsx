@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { Form, Button, Col, Container, Alert } from 'react-bootstrap';
 import { doc, getDoc, serverTimestamp, updateDoc } from 'firebase/firestore'; 
 import { db } from '../../utils/firebase-config';
 import { useNavigate, useParams } from 'react-router';
 import { uploadImageToStorage } from '../../utils/productService';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 const EditProductComponent = () => {
     const { productId } = useParams();
@@ -13,6 +15,7 @@ const EditProductComponent = () => {
     const [productStock, setProductStock] = useState('');
     const [productImage, setProductImage] = useState(null);
     const [productPrice, setProductPrice] = useState('');
+    const [initialProductName, setinitialProductName] = useState('')
     const navigate = useNavigate();
     
     useEffect(() => {
@@ -25,8 +28,9 @@ const EditProductComponent = () => {
               setProduct(productData);
               setProductName(productData.productName);
               setProductStock(productData.productStock);
-              setProductImage(productData.productImage);
               setProductPrice(productData.productPrice);
+
+              setinitialProductName(productData.productName);
             }
           } catch (error) {
             console.error('Error fetching product: ', error);
@@ -37,7 +41,15 @@ const EditProductComponent = () => {
 
       const handleFormSubmit = async (e) => {
         e.preventDefault();
-        const updateImg = await uploadImageToStorage(productImage)
+
+        let updateImg;
+        if (productImage) {
+
+          updateImg = await uploadImageToStorage(productImage);
+        } else {
+          updateImg = product.productImage;
+        }
+        
         const updatedProduct = {
           productName: productName,
           productStock: productStock,
@@ -45,6 +57,7 @@ const EditProductComponent = () => {
           productPrice: productPrice,
           lastUpdate: serverTimestamp(),
         };
+      
         try {
           const productDocRef = doc(db, 'products', productId);
           await updateDoc(productDocRef, updatedProduct);
@@ -53,17 +66,29 @@ const EditProductComponent = () => {
           console.error('Error updating product: ', error);
         }
       };
+    
+    const handleImageChange = (e) => {
+      const selectedFile = e.target.files[0];
+      if (selectedFile) {
+        setProductImage(selectedFile);
+      } else if (product.productImage) {
+        setProductImage(product.productImage);
+      }
+    }
 
     const handleCloseAlert = () => {
         setshowAlert(false);
         navigate('/');
     }
     
-
   return (
-    <Container>
+    <HelmetProvider>
+      <Helmet>
+      <title>managementIn - Edit Product</title>
+      </Helmet>
+      <Container>
       <Col className='d-flex justify-content-center m-3'>
-          <h2>Edit Product</h2>
+          <h2>Edit Product - {initialProductName}</h2>
         </Col>
       <Form className='m-md-3 m-sm-3' onSubmit={handleFormSubmit}>
         <Form.Group className='mb-3'>
@@ -89,7 +114,7 @@ const EditProductComponent = () => {
           <Form.Control
             type="file"
             accept="image/*"
-            onChange={(e) => setProductImage(e.target.files[0])}
+            onChange={handleImageChange}
           />
         </Form.Group>
         <Form.Group className='mb-3'>
@@ -106,10 +131,12 @@ const EditProductComponent = () => {
       </Form>
         {showAlert && (
             <Alert variant="success" dismissible onClose={handleCloseAlert}>
-              Product has been successfully deleted.
+              Product has been successfully edited.
             </Alert>
           )}
     </Container>
+    </HelmetProvider>
+    
   );
 }
 

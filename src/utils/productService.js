@@ -24,11 +24,12 @@ export const fetchProducts = async () => {
     querySnapshot.forEach((doc) => {
       const productData = doc.data();
       const productPrice = parseFloat(productData.productPrice);
+      const productStock = parseFloat(productData.productStock);
 
       const product = {
         id: doc.id,
         productName: productData.productName,
-        productStock: productData.productStock,
+        productStock: productStock,
         productImage: productData.productImage,
         productPrice: productPrice,
         uploadDate: productData.uploadDate,
