@@ -18,7 +18,6 @@ const Navbars = ({onSearch}) => {
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
         <Navbar.Brand href="/"><img src={managementDark} alt="managementInLogo" style={{width : '210px'}}/></Navbar.Brand>
-        {/* <Navbar.Brand href="/">dfsf</Navbar.Brand> */}
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto me-4 p-2 navs-link">

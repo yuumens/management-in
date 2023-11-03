@@ -39,7 +39,7 @@
   align-self: flex-end;
 }
 
-.bot-message {
+.assistant-message {
   background-color: #2e88db;
   color: #fff;
   border-radius: 8px;
@@ -71,11 +71,7 @@ button {
   background-color: #2e88db;
   color: #fff;
   border: none;
-  border-radius: 10px;
+  border-radius: 4px;
   padding: 10px 20px;
   cursor: pointer;
-}
-
-button:hover {
-  background-color: #868789;
 }

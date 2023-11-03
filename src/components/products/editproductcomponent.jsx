@@ -44,10 +44,9 @@ const EditProductComponent = () => {
 
         let updateImg;
         if (productImage) {
-          // Jika pengguna mengunggah gambar baru, upload gambar baru.
+
           updateImg = await uploadImageToStorage(productImage);
         } else {
-          // Jika tidak ada gambar yang diunggah, gunakan gambar produk yang ada.
           updateImg = product.productImage;
         }
         
@@ -132,7 +131,7 @@ const EditProductComponent = () => {
       </Form>
         {showAlert && (
             <Alert variant="success" dismissible onClose={handleCloseAlert}>
-              Product has been successfully deleted.
+              Product has been successfully edited.
             </Alert>
           )}
     </Container>

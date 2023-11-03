@@ -1,7 +1,8 @@
-import axios from 'axios';
 import './openai.css'
 import { useState } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import Navbars from '../navbar/navbar';
+import { openai } from '../../utils/openAIConfig';
 
 const Chatbot = () => {
   const [input, setInput] = useState('');
@@ -18,21 +19,27 @@ const Chatbot = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('https://api.openai.com/v1/engines/text-davinci-003/completions', {
-        prompt: input,
-        max_tokens: 250,
-      }, {
-        headers: {
-          'Authorization': `Bearer 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`,
-          'Content-Type': 'application/json',
-        },
+      const chatCompletion = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [
+          { role: "user", content: input },
+          { role: "assistant", content: "Placeholder for asisten" },
+        ],
+        temperature : 1,
+        max_tokens : 256,
       });
-
-      const botResponse = response.data.choices[0].text;
-      setMessages([...messages, { text: input, isUser: true }, { text: botResponse, isUser: false }]);
+      const botResponse = chatCompletion.choices[0].message.content;
+      const userQuestion = input;
+      setMessages([
+        ...messages,
+        { role: "user", text: userQuestion },
+        { role: "assistant", text: botResponse },
+      ]);
       setInput('');
+      console.log(import.meta.env.VITE_APP_OPENAI_API_KEY);
     } catch (error) {
       console.error('Terjadi kesalahan:', error);
+      console.log(import.meta.env.VITE_APP_OPENAI_API_KEY);
     } finally {
       setIsLoading(false);
     }
@@ -43,6 +50,7 @@ const Chatbot = () => {
         <Helmet>
             <title>managementIn - ChatBot</title>
         </Helmet>
+    <Navbars/>
     <div className="chat-bot">
       <div className="chat-bot-container">
       <h1>ChatBot</h1>
@@ -63,9 +71,12 @@ const Chatbot = () => {
       </div>
       <div className="chat-container">
         {messages.map((message, index) => (
-          <div key={index} className={message.isUser ? 'user-message' : 'bot-message'}>
-            {message.text}
-          </div>
+      <div
+        key={index}
+        className={message.role === "user" ? "user-message" : "assistant-message"}
+      >
+        {message.text}
+      </div>
         ))}
       </div>
       </div>

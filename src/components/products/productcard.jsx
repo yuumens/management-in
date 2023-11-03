@@ -38,7 +38,6 @@ const ProductCard = ({product, productImage}) => {
 }
 
 ProductCard.propTypes = {
-    onDelete: PropTypes.func.isRequired,
     productImage : PropTypes.string.isRequired,
     product: PropTypes.shape({
         id : PropTypes.string.isRequired,
